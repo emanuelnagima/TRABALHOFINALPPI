@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #0dad1a, #03ff10);
+            color: white;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .login-container {
+            background-color: white;
+            color: #333;
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: rgb(14, 199, 8);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: rgb(14, 199, 8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #0ca312;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <form id="cand">
+            <h2>Acessar Candidatos</h2>
+            <button type="submit"><a href="candidatos.html"></a>Candidatos</button>
+        </form>
+    </div>
+
+    <div class="login-container">
+        <form id="partidos">
+            <h2>Acessar Partidos</h2>
+            <button type="submit"><a href="partidos.html"></a>Partidos</button>
+        </form>
+    </div>
+
+</body>
+</html>

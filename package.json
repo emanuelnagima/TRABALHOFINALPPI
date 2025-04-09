@@ -1,0 +1,30 @@
+{
+  "name": "trabalhofinalppi",
+  "version": "1.0.0",
+  "description": "trabalho final ppi",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emanuelnagima/TRABALHOFINALPPI.git"
+  },
+  "keywords": [
+    "trabalho"
+  ],
+  "author": "emanuel nepomuceno nagima",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emanuelnagima/TRABALHOFINALPPI/issues"
+  },
+  "homepage": "https://github.com/emanuelnagima/TRABALHOFINALPPI#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.0"
+  }
+}
