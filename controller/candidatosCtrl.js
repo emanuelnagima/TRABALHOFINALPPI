@@ -1,16 +1,13 @@
-// CAMADA DE CONTROLE
-
-// Essa classe é responsável por controlar requisições HTTP para candidatos.
-// As requisições HTTP são: GET, POST, PUT/PATCH, DELETE.
+// CAMADA DE CONTROLE - CandidatoCtrl.js
 
 import Candidato from "../modelo/candidatos.js";
+import CandidatosDB from "../database/candidatosDB.js";
 
 export default class CandidatoCtrl {
 
     // POST - Gravar novo candidato
-    gravar(requisicao, resposta) {
+    async gravar(requisicao, resposta) {
         if (requisicao.method === 'POST' && requisicao.is("application/json")) {
-            const dados = requisicao.body;
             const {
                 cpf,
                 tituloDeEleitor,
@@ -22,9 +19,8 @@ export default class CandidatoCtrl {
                 uf,
                 cep,
                 rendaMensal
-            } = dados;
+            } = requisicao.body;
 
-            // Validação de campos obrigatórios
             if (cpf && tituloDeEleitor && nome && endereco && numero && bairro && cidade && uf && cep && rendaMensal) {
                 const candidato = new Candidato(
                     cpf,
@@ -39,17 +35,20 @@ export default class CandidatoCtrl {
                     rendaMensal
                 );
 
-                candidato.gravar().then(() => {
+                const db = new CandidatosDB();
+
+                try {
+                    await db.gravar(candidato);
                     resposta.status(201).json({
                         status: true,
                         mensagem: "Candidato gravado com sucesso!"
                     });
-                }).catch((erro) => {
+                } catch (erro) {
                     resposta.status(500).json({
                         status: false,
                         mensagem: "Erro ao gravar o candidato: " + erro
                     });
-                });
+                }
             } else {
                 resposta.status(400).json({
                     status: false,
@@ -64,10 +63,9 @@ export default class CandidatoCtrl {
         }
     }
 
-    // PUT ou PATCH - Alterar candidato existente
-    alterar(requisicao, resposta) {
+    // PUT ou PATCH - Alterar candidato
+    async alterar(requisicao, resposta) {
         if ((requisicao.method === 'PUT' || requisicao.method === 'PATCH') && requisicao.is("application/json")) {
-            const dados = requisicao.body;
             const {
                 cpf,
                 tituloDeEleitor,
@@ -79,7 +77,7 @@ export default class CandidatoCtrl {
                 uf,
                 cep,
                 rendaMensal
-            } = dados;
+            } = requisicao.body;
 
             if (cpf && tituloDeEleitor && nome && endereco && numero && bairro && cidade && uf && cep && rendaMensal) {
                 const candidato = new Candidato(
@@ -95,17 +93,20 @@ export default class CandidatoCtrl {
                     rendaMensal
                 );
 
-                candidato.alterar().then(() => {
+                const db = new CandidatosDB();
+
+                try {
+                    await db.alterar(candidato);
                     resposta.status(200).json({
                         status: true,
                         mensagem: "Candidato alterado com sucesso!"
                     });
-                }).catch((erro) => {
+                } catch (erro) {
                     resposta.status(500).json({
                         status: false,
                         mensagem: "Erro ao alterar o candidato: " + erro
                     });
-                });
+                }
             } else {
                 resposta.status(400).json({
                     status: false,
@@ -121,24 +122,26 @@ export default class CandidatoCtrl {
     }
 
     // DELETE - Excluir candidato
-    excluir(requisicao, resposta) {
+    async excluir(requisicao, resposta) {
         if (requisicao.method === 'DELETE' && requisicao.is("application/json")) {
-            const dados = requisicao.body;
-            const { cpf } = dados;
+            const { cpf } = requisicao.body;
 
             if (cpf) {
                 const candidato = new Candidato(cpf);
-                candidato.excluir().then(() => {
+                const db = new CandidatosDB();
+
+                try {
+                    await db.excluir(candidato);
                     resposta.status(200).json({
                         status: true,
                         mensagem: "Candidato excluído com sucesso!"
                     });
-                }).catch((erro) => {
+                } catch (erro) {
                     resposta.status(500).json({
                         status: false,
                         mensagem: "Erro ao excluir o candidato: " + erro
                     });
-                });
+                }
             } else {
                 resposta.status(400).json({
                     status: false,
@@ -154,20 +157,22 @@ export default class CandidatoCtrl {
     }
 
     // GET - Consultar candidatos
-    consultar(requisicao, resposta) {
+    async consultar(requisicao, resposta) {
         if (requisicao.method === 'GET') {
-            const candidato = new Candidato();
-            candidato.consultar().then((listaCandidatos) => {
+            const db = new CandidatosDB();
+
+            try {
+                const listaCandidatos = await db.consultar();
                 resposta.status(200).json({
                     status: true,
                     candidatos: listaCandidatos
                 });
-            }).catch((erro) => {
+            } catch (erro) {
                 resposta.status(500).json({
                     status: false,
                     mensagem: "Erro ao consultar candidatos: " + erro
                 });
-            });
+            }
         } else {
             resposta.status(400).json({
                 status: false,

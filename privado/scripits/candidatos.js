@@ -1,15 +1,15 @@
-const cadastroForm= document.getElementById("cadastroForm");
+const cadastroForm = document.getElementById("cadastroForm2");
 let acao = "cadastrar";
 
 function manipularEnvio(evento) {
     if (!cadastroForm.checkValidity()) {
-        cadastroForm.classList.add("was-validated");
+        // Você pode mostrar validações aqui se quiser
     } else {
-        if (acao == "cadastrar") {
+        if (acao === "cadastrar") {
             adicionarCandidato();
-        } else if (acao == "atualizar") {
+        } else if (acao === "atualizar") {
             atualizarCandidato();
-        } else if (acao == "excluir") {
+        } else if (acao === "excluir") {
             excluirCandidato();
         }
         cadastroForm.reset();
@@ -22,16 +22,16 @@ function manipularEnvio(evento) {
 
 function pegarDadosCandidato() {
     return {
-        cpf: document.getElementById("cpf").value,
-        titulo: document.getElementById("titulo").value,
+        cpf: document.getElementById("cod").value,
+        tituloDeEleitor: document.getElementById("t").value,
         nome: document.getElementById("nome").value,
-        endereco: document.getElementById("endereco").value,
-        numero: document.getElementById("numero").value,
-        bairro: document.getElementById("bairro").value,
-        cidade: document.getElementById("cidade").value,
+        endereco: document.getElementById("sigla").value,
+        numero: document.getElementById("num").value,
+        bairro: document.getElementById("bar").value,
+        cidade: document.getElementById("cid").value,
         uf: document.getElementById("uf").value,
         cep: document.getElementById("cep").value,
-        rendaMensal: document.getElementById("rendaMensal").value
+        rendaMensal: document.getElementById("ren").value
     };
 }
 
@@ -50,14 +50,14 @@ function adicionarCandidato() {
         mostrarMensagem(dados.mensagem, "success");
     })
     .catch(erro => {
-        mostrarMensagem("Erro: " + erro, "danger");
+        mostrarMensagem("Erro: " + erro.message, "danger");
     });
 }
 
 function atualizarCandidato() {
     const dados = pegarDadosCandidato();
 
-    fetch(`http://localhost:5000/candidatos/${dados.cpf}`, {
+    fetch("http://localhost:5000/candidatos", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"
@@ -69,25 +69,26 @@ function atualizarCandidato() {
         mostrarMensagem(dados.mensagem, "success");
     })
     .catch(erro => {
-        mostrarMensagem("Erro: " + erro, "danger");
+        mostrarMensagem("Erro: " + erro.message, "danger");
     });
 }
 
 function excluirCandidato() {
     const dados = pegarDadosCandidato();
 
-    fetch(`http://localhost:5000/candidatos/${dados.cpf}`, {
+    fetch("http://localhost:5000/candidatos", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({ cpf: dados.cpf })
     })
     .then(res => res.json())
     .then(dados => {
         mostrarMensagem(dados.mensagem, "success");
     })
     .catch(erro => {
-        mostrarMensagem("Erro: " + erro, "danger");
+        mostrarMensagem("Erro: " + erro.message, "danger");
     });
 }
 
@@ -100,17 +101,15 @@ function mostrarMensagem(mensagem, tipo = "success") {
 }
 
 function mostrarTabelaCandidato() {
-    fetch("http://localhost:5000/candidatos", {
-        method: "GET"
-    })
+    fetch("http://localhost:5000/candidatos")
     .then(res => res.json())
     .then(dados => {
+        const espacoTabela = document.getElementById("espacoTabela");
         if (dados.status) {
             const candidatos = dados.candidatos;
-            const espacoTabela = document.getElementById("espacoTabela");
+            espacoTabela.innerHTML = "";
 
             if (candidatos.length > 0) {
-                espacoTabela.innerHTML = "";
                 const tabela = document.createElement("table");
                 tabela.className = "table table-striped table-hover";
                 const thead = document.createElement("thead");
@@ -133,11 +132,12 @@ function mostrarTabelaCandidato() {
                     </tr>
                 `;
                 tabela.appendChild(thead);
-                for (let i = 0; i < usuarios.length; i++) {
+
+                candidatos.forEach(c => {
                     const linha = document.createElement("tr");
                     linha.innerHTML = `
                         <td>${c.cpf}</td>
-                        <td>${c.titulo}</td>
+                        <td>${c.tituloDeEleitor}</td>
                         <td>${c.nome}</td>
                         <td>${c.endereco}</td>
                         <td>${c.numero}</td>
@@ -146,17 +146,13 @@ function mostrarTabelaCandidato() {
                         <td>${c.uf}</td>
                         <td>${c.cep}</td>
                         <td>${c.rendaMensal}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" onclick="pegarCandidato('${c.cpf}', '${c.titulo}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'atualizar')"><i class="bi bi-pencil-square"></i></button>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-danger" onclick="pegarCandidato('${c.cpf}', '${c.titulo}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'excluir')"><i class="bi bi-trash-fill"></i></button>
-                        </td>
+                        <td><button class="btn btn-sm btn-warning" onclick="pegarCandidato('${c.cpf}', '${c.tituloDeEleitor}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'atualizar')"><i class="bi bi-pencil-square"></i></button></td>
+                        <td><button class="btn btn-sm btn-danger" onclick="pegarCandidato('${c.cpf}', '${c.tituloDeEleitor}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'excluir')"><i class="bi bi-trash-fill"></i></button></td>
                     `;
-                    corpo.appendChild(linha);
-                }
+                    tbody.appendChild(linha);
+                });
 
-                tabela.appendChild(corpo);
+                tabela.appendChild(tbody);
                 espacoTabela.appendChild(tabela);
             } else {
                 mostrarMensagem("Não há candidatos cadastrados.", "warning");
@@ -166,33 +162,27 @@ function mostrarTabelaCandidato() {
         }
     })
     .catch(erro => {
-        mostrarMensagem("Erro: " + erro, "danger");
+        mostrarMensagem("Erro: " + erro.message, "danger");
     });
 }
 
-function pegarCandidato(cpf, titulo, nome, endereco, numero, bairro, cidade, uf, cep, rendaMensal, novaAcao = "atualizar") {
-    document.getElementById("cpf").value = cpf;
-    document.getElementById("titulo").value = titulo;
+function pegarCandidato(cpf, titulo, nome, endereco, numero, bairro, cidade, uf, cep, renda, novaAcao = "atualizar") {
+    document.getElementById("cod").value = cpf;
+    document.getElementById("t").value = titulo;
     document.getElementById("nome").value = nome;
-    document.getElementById("endereco").value = endereco;
-    document.getElementById("numero").value = numero;
-    document.getElementById("bairro").value = bairro;
-    document.getElementById("cidade").value = cidade;
+    document.getElementById("sigla").value = endereco;
+    document.getElementById("num").value = numero;
+    document.getElementById("bar").value = bairro;
+    document.getElementById("cid").value = cidade;
     document.getElementById("uf").value = uf;
     document.getElementById("cep").value = cep;
-    document.getElementById("rendaMensal").value = rendaMensal;
+    document.getElementById("ren").value = renda;
 
-    if (novaAcao === "atualizar") {
-        acao = "atualizar";
-        document.getElementById("atualizar") = false;
-        document.getElementById("cadastrar") = true;
-        document.getElementById("excluir")= true; /////////////////DESATIVEI O DESABLEEEEEEEEEEEEEEEEEEEEEEE
-    } else if (novaAcao === "excluir") {
-        acao = "excluir";
-        document.getElementById("atualizar") = true;
-        document.getElementById("cadastrar") = true;
-        document.getElementById("excluir") = false;
-    }
+    acao = novaAcao;
+
+    document.getElementById("atualizar").disabled = novaAcao !== "atualizar";
+    document.getElementById("cadastrar").disabled = novaAcao !== "cadastrar";
+    document.getElementById("excluir").disabled = novaAcao !== "excluir";
 }
 
 cadastroForm.addEventListener("submit", manipularEnvio);

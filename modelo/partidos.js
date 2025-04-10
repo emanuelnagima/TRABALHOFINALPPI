@@ -37,7 +37,7 @@ export default class Partido {
         this.#siglaDoPartido = novaSiglaDoPartido;
     }
 
-    // ✅ Método corrigido: nomes compatíveis com o front-end
+    //  Método corrigido: nomes compatíveis com o front-end
     toJSON() {
         return {         
             codigo: this.#codigo,

@@ -8,7 +8,7 @@ export default class PartidoCtrl {
 
     async gravar(requisicao, resposta) {
         if (requisicao.method === 'POST' && requisicao.is("application/json")) {
-            const { codigo, nomeDoPartido, siglaDoPartido } = requisicao.body;
+            const { codigo, nome, sigla } = requisicao.body;;
 
             if (codigo && nomeDoPartido && siglaDoPartido) {
                 if (siglaDoPartido.length > 5) {
@@ -18,7 +18,7 @@ export default class PartidoCtrl {
                     });
                 }
 
-                const partido = new Partido(codigo, nomeDoPartido, siglaDoPartido);
+                const partido = new Partido(codigo, nome, sigla);
                 const db = new PartidosDB();
 
                 try {

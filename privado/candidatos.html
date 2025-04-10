@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cadastro - Viaje Agora</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(to bottom right, #0dad1a, #03ff10);
       color: white;
       margin: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-            justify-content: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
       gap: 20px;
     }
@@ -23,10 +23,9 @@
       background-color: white;
       color: #333;
       width: 350px;
-      margin-bottom: 20px;
-       margin-top: 80px;
-        padding: 30px;
-        border-radius: 10px;
+      margin-top: 80px;
+      padding: 30px;
+      border-radius: 10px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
       text-align: center;
     }
@@ -39,7 +38,6 @@
 
     label {
       display: block;
-     
       margin-top: 5px;
       font-weight: bold;
       text-align: left;
@@ -50,8 +48,7 @@
       padding: 10px;
       margin-top: 5px;
       border-radius: 5px;
-        border: 1px solid #ccc;
-      
+      border: 1px solid #ccc;
     }
 
     .cadastrar {
@@ -88,66 +85,78 @@
     #espacoTabela {
       width: 80%;
     }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      color: #000;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    table th {
+      background-color: #0dad1a;
+      color: white;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h2>Cadastrar Partido</h2>
+    <h2>Cadastrar Candidatos</h2>
     <form id="cadastroForm2" novalidate>
-      <label for="cod">Cpf:</label>
-      <input type="number" id="cod" name="cod" required>
-      <div class="invalid-feedback">Por favor informe o cpf!</div>
+      <label for="cod">CPF:</label>
+      <input type="number" id="cod" name="cod" required />
+      <div class="invalid-feedback">Por favor informe o CPF!</div>
 
-      <label for="titulo">Titulo de Eleitor:</label>
-      <input type="text" id="t" name="email" required>
-      <div class="invalid-feedback">Por favor informe Titulo de Eleitor !</div>
+      <label for="t">Título de Eleitor:</label>
+      <input type="number" id="t" name="titulo" required />
+      <div class="invalid-feedback">Por favor informe o Título de Eleitor!</div>
 
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" name="nome" required>
+      <input type="text" id="nome" name="nome" required />
       <div class="invalid-feedback">Por favor informe o nome!</div>
-      
-      <label for="end">Endereço:</label>
-      <input type="end" id="sigla" name="end" required>
+
+      <label for="sigla">Endereço:</label>
+      <input type="text" id="sigla" name="endereco" required />
       <div class="invalid-feedback">Por favor informe o endereço!</div>
-      
+
       <label for="num">Número:</label>
-      <input type="number" id="num" name="num" required>
-      <div class="invalid-feedback">Por favor informe a número!</div>
-      
+      <input type="number" id="num" name="numero" required />
+      <div class="invalid-feedback">Por favor informe o número!</div>
+
       <label for="bar">Bairro:</label>
-      <input type="text" id="bar" name="bar" required>
-      <div class="invalid-feedback">Por favor informe a bairro!</div>
+      <input type="text" id="bar" name="bairro" required />
+      <div class="invalid-feedback">Por favor informe o bairro!</div>
 
       <label for="cid">Cidade:</label>
-      <input type="text" id="cid" name="cid" required>
+      <input type="text" id="cid" name="cidade" required />
       <div class="invalid-feedback">Por favor informe a cidade!</div>
 
-      <label for="uf">Uf:</label>
-      <input type="text" id="uf" name="uf" required>
-      <div class="invalid-feedback">Por favor informe a uf!</div>
+      <label for="uf">UF:</label>
+      <input type="text" id="uf" name="uf" required />
+      <div class="invalid-feedback">Por favor informe o UF!</div>
 
-      <label for="cep">Cep:</label>
-      <input type="number" id="cep" name="cep" required>
-      <div class="invalid-feedback">Por favor informe a cep!</div>
+      <label for="cep">CEP:</label>
+      <input type="number" id="cep" name="cep" required />
+      <div class="invalid-feedback">Por favor informe o CEP!</div>
 
       <label for="ren">Renda Mensal:</label>
-      <input type="number" id="ren" name="ren" required>
+      <input type="number" id="ren" name="renda" required />
       <div class="invalid-feedback">Por favor informe a renda mensal!</div>
 
-
-
-
-      
-
       <button id="btnCadastrar" class="cadastrar" type="submit">Cadastrar</button>
-      <button id="btnAtualizar" class="cadastrar" type="submit">Atualizar</button>
-      <button id="btnExcluir" class="cadastrar" type="submit">Excluir</button>
     </form>
   </div>
 
   <div id="mensagem"></div>
   <div id="espacoTabela"></div>
 
-  <script src="scripits/candidatos.js"></script>
+  <script src="scripts/CandidatoCtrl.js"></script>
+  <script src="scripts/candidatos.js"></script>
 </body>
 </html>
