@@ -1,19 +1,19 @@
-const cadastroForm = document.getElementById("cadastroForm2");
-let acao = "cadastrar";
+const cadastroForm2 = document.getElementById("cadastroForm2");
+let acao = "cadastrar"; // Ação padrão
 
 function manipularEnvio(evento) {
-    if (!cadastroForm.checkValidity()) {
-        // Você pode mostrar validações aqui se quiser
+    if (!cadastroForm2.checkValidity()) {
+        cadastroForm2.classList.add("was-validated");
     } else {
-        if (acao === "cadastrar") {
+        if (acao == "cadastrar") {
             adicionarCandidato();
-        } else if (acao === "atualizar") {
+        } else if (acao == "atualizar") {
             atualizarCandidato();
-        } else if (acao === "excluir") {
+        } else if (acao == "excluir") {
             excluirCandidato();
         }
-        cadastroForm.reset();
-        mostrarTabelaCandidato();
+        cadastroForm2.reset();
+        mostrarTabelaCandidatos();
     }
 
     evento.preventDefault();
@@ -22,16 +22,16 @@ function manipularEnvio(evento) {
 
 function pegarDadosCandidato() {
     return {
-        cpf: document.getElementById("cod").value,
-        tituloDeEleitor: document.getElementById("t").value,
-        nome: document.getElementById("nome").value,
-        endereco: document.getElementById("sigla").value,
-        numero: document.getElementById("num").value,
-        bairro: document.getElementById("bar").value,
-        cidade: document.getElementById("cid").value,
-        uf: document.getElementById("uf").value,
-        cep: document.getElementById("cep").value,
-        rendaMensal: document.getElementById("ren").value
+        "cpf": document.getElementById("cpf").value,
+        "tituloDeEleitor": document.getElementById("tituloDeEleitor").value,
+        "nome": document.getElementById("nome").value,
+        "endereco": document.getElementById("endereco").value,
+        "numero": document.getElementById("numero").value,
+        "bairro": document.getElementById("bairro").value,
+        "cidade": document.getElementById("cidade").value,
+        "cep": document.getElementById("cep").value,
+        "uf": document.getElementById("uf").value,
+        "rendaMensal": document.getElementById("rendaMensal").value
     };
 }
 
@@ -40,81 +40,55 @@ function adicionarCandidato() {
 
     fetch("http://localhost:5000/candidatos", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dados)
     })
     .then(res => res.json())
-    .then(dados => {
-        mostrarMensagem(dados.mensagem, "success");
-    })
-    .catch(erro => {
-        mostrarMensagem("Erro: " + erro.message, "danger");
-    });
+    .then(res => mostrarMensagem(res.mensagem, "success"))
+    .catch(err => mostrarMensagem("Erro: " + err, "danger"));
 }
 
 function atualizarCandidato() {
     const dados = pegarDadosCandidato();
 
-    fetch("http://localhost:5000/candidatos", {
+    fetch(`http://localhost:5000/candidatos/${dados.cpf}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dados)
     })
     .then(res => res.json())
-    .then(dados => {
-        mostrarMensagem(dados.mensagem, "success");
-    })
-    .catch(erro => {
-        mostrarMensagem("Erro: " + erro.message, "danger");
-    });
+    .then(res => mostrarMensagem(res.mensagem, "success"))
+    .catch(err => mostrarMensagem("Erro: " + err, "danger"));
 }
 
 function excluirCandidato() {
     const dados = pegarDadosCandidato();
 
-    fetch("http://localhost:5000/candidatos", {
+    fetch(`http://localhost:5000/candidatos/${dados.cpf}`, {
         method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ cpf: dados.cpf })
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(res => mostrarMensagem(res.mensagem, "success"))
+    .catch(err => mostrarMensagem("Erro: " + err, "danger"));
+}
+
+function mostrarTabelaCandidatos() {
+    fetch("http://localhost:5000/candidatos", {
+        method: "GET"
     })
     .then(res => res.json())
     .then(dados => {
-        mostrarMensagem(dados.mensagem, "success");
-    })
-    .catch(erro => {
-        mostrarMensagem("Erro: " + erro.message, "danger");
-    });
-}
-
-function mostrarMensagem(mensagem, tipo = "success") {
-    const espacoMensagem = document.getElementById("mensagem");
-    espacoMensagem.innerHTML = `<div class="alert alert-${tipo}" role="alert">${mensagem}</div>`;
-    setTimeout(() => {
-        espacoMensagem.innerHTML = "";
-    }, 5000);
-}
-
-function mostrarTabelaCandidato() {
-    fetch("http://localhost:5000/candidatos")
-    .then(res => res.json())
-    .then(dados => {
-        const espacoTabela = document.getElementById("espacoTabela");
+        const tabela = document.getElementById("espacoTabelaCandidatos");
         if (dados.status) {
+            tabela.innerHTML = "";
             const candidatos = dados.candidatos;
-            espacoTabela.innerHTML = "";
 
             if (candidatos.length > 0) {
-                const tabela = document.createElement("table");
-                tabela.className = "table table-striped table-hover";
-                const thead = document.createElement("thead");
-                const tbody = document.createElement("tbody");
+                const table = document.createElement("table");
+                table.className = "table table-striped table-hover";
 
+                const thead = document.createElement("thead");
                 thead.innerHTML = `
                     <tr>
                         <th>CPF</th>
@@ -124,16 +98,17 @@ function mostrarTabelaCandidato() {
                         <th>Número</th>
                         <th>Bairro</th>
                         <th>Cidade</th>
-                        <th>UF</th>
                         <th>CEP</th>
+                        <th>UF</th>
                         <th>Renda</th>
                         <th>Editar</th>
                         <th>Excluir</th>
                     </tr>
                 `;
-                tabela.appendChild(thead);
+                table.appendChild(thead);
 
-                candidatos.forEach(c => {
+                const tbody = document.createElement("tbody");
+                for (const c of candidatos) {
                     const linha = document.createElement("tr");
                     linha.innerHTML = `
                         <td>${c.cpf}</td>
@@ -143,47 +118,58 @@ function mostrarTabelaCandidato() {
                         <td>${c.numero}</td>
                         <td>${c.bairro}</td>
                         <td>${c.cidade}</td>
-                        <td>${c.uf}</td>
                         <td>${c.cep}</td>
+                        <td>${c.uf}</td>
                         <td>${c.rendaMensal}</td>
-                        <td><button class="btn btn-sm btn-warning" onclick="pegarCandidato('${c.cpf}', '${c.tituloDeEleitor}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'atualizar')"><i class="bi bi-pencil-square"></i></button></td>
-                        <td><button class="btn btn-sm btn-danger" onclick="pegarCandidato('${c.cpf}', '${c.tituloDeEleitor}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'excluir')"><i class="bi bi-trash-fill"></i></button></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="pegarCandidato(${JSON.stringify(c).replace(/"/g, '&quot;')}, 'atualizar')"><i class="bi bi-pencil-square"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="pegarCandidato(${JSON.stringify(c).replace(/"/g, '&quot;')}, 'excluir')"><i class="bi bi-trash-fill"></i></button>
+                        </td>
                     `;
                     tbody.appendChild(linha);
-                });
+                }
 
-                tabela.appendChild(tbody);
-                espacoTabela.appendChild(tabela);
+                table.appendChild(tbody);
+                tabela.appendChild(table);
             } else {
-                mostrarMensagem("Não há candidatos cadastrados.", "warning");
+                mostrarMensagem("Nenhum candidato cadastrado.", "warning");
             }
         } else {
             mostrarMensagem(dados.mensagem, "danger");
         }
     })
-    .catch(erro => {
-        mostrarMensagem("Erro: " + erro.message, "danger");
-    });
+    .catch(err => mostrarMensagem("Erro: " + err, "danger"));
 }
 
-function pegarCandidato(cpf, titulo, nome, endereco, numero, bairro, cidade, uf, cep, renda, novaAcao = "atualizar") {
-    document.getElementById("cod").value = cpf;
-    document.getElementById("t").value = titulo;
-    document.getElementById("nome").value = nome;
-    document.getElementById("sigla").value = endereco;
-    document.getElementById("num").value = numero;
-    document.getElementById("bar").value = bairro;
-    document.getElementById("cid").value = cidade;
-    document.getElementById("uf").value = uf;
-    document.getElementById("cep").value = cep;
-    document.getElementById("ren").value = renda;
+function pegarCandidato(dados, novaAcao) {
+    document.getElementById("cpf").value = dados.cpf;
+    document.getElementById("tituloDeEleitor").value = dados.tituloDeEleitor;
+    document.getElementById("nome").value = dados.nome;
+    document.getElementById("endereco").value = dados.endereco;
+    document.getElementById("numero").value = dados.numero;
+    document.getElementById("bairro").value = dados.bairro;
+    document.getElementById("cidade").value = dados.cidade;
+    document.getElementById("cep").value = dados.cep;
+    document.getElementById("uf").value = dados.uf;
+    document.getElementById("rendaMensal").value = dados.rendaMensal;
 
     acao = novaAcao;
 
-    document.getElementById("atualizar").disabled = novaAcao !== "atualizar";
     document.getElementById("cadastrar").disabled = novaAcao !== "cadastrar";
+    document.getElementById("atualizar").disabled = novaAcao !== "atualizar";
     document.getElementById("excluir").disabled = novaAcao !== "excluir";
 }
 
-cadastroForm.addEventListener("submit", manipularEnvio);
-mostrarTabelaCandidato();
+function mostrarMensagem(mensagem, tipo = "success") {
+    const divMensagem = document.getElementById("mensagemCandidato");
+    divMensagem.innerHTML = `<div class="alert alert-${tipo}" role="alert">${mensagem}</div>`;
+    setTimeout(() => {
+        divMensagem.innerHTML = "";
+    }, 5000);
+}
+
+// Evento e inicialização
+cadastroForm2.addEventListener("submit", manipularEnvio);
+mostrarTabelaCandidatos();

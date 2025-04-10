@@ -2,13 +2,13 @@
 import { Router } from "express";
 import CandidatoCtrl from "../controller/candidatosCtrl.js";
 
-const rotaCandidato = Router(); // mini aplicação http
+const rotaCandidato = Router();
 const candCtrl = new CandidatoCtrl();
 
-rotaCandidato.get("/", candCtrl.consultar.bind(candCtrl));
-rotaCandidato.post("/", candCtrl.gravar.bind(candCtrl));
-rotaCandidato.put("/", candCtrl.alterar.bind(candCtrl));
-rotaCandidato.patch("/", candCtrl.alterar.bind(candCtrl));
-rotaCandidato.delete("/", candCtrl.excluir.bind(candCtrl));
+rotaCandidato.get("/", candCtrl.consultar);
+rotaCandidato.post("/", candCtrl.gravar);
+rotaCandidato.put("/", candCtrl.alterar);
+rotaCandidato.patch("/", candCtrl.alterar);
+rotaCandidato.delete("/", candCtrl.excluir);
 
 export default rotaCandidato;
