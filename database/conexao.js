@@ -13,8 +13,8 @@ export default async function conectar() {
             port: 3306,
             waitForConnections: true,
             connectionLimit: 20,
-            maxIdle: 10, // max idle connections
-            idleTimeout: 60000, // idle connections timeout in milliseconds
+            maxIdle: 10, 
+            idleTimeout: 60000,
             queueLimit: 0,
             enableKeepAlive: true,
             keepAliveInitialDelay: 0,

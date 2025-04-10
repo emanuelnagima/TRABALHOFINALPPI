@@ -1,6 +1,5 @@
 import { Router } from "express";
-import CandidatoCtrl from "../usuarioCtrl.js";
-
+import CandidatoCtrl from "../controller/candidatosCtrl.js";
 
 
 const rotaCandidato = Router(); //mini aplicação http

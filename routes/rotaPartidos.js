@@ -1,5 +1,5 @@
 import { Router } from "express";
-import PartidoCtrl from "../partidoCtrl.js";
+import PartidoCtrl from "../controller/partidosCtrl.js";
 
 
 

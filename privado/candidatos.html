@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Viaje Agora</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #0dad1a, #03ff10);
+      color: white;
+      margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+            justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .form-container {
+      background-color: white;
+      color: #333;
+      width: 350px;
+      margin-bottom: 20px;
+       margin-top: 80px;
+        padding: 30px;
+        border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: rgb(14, 199, 8);
+    }
+
+    label {
+      display: block;
+     
+      margin-top: 5px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+        border: 1px solid #ccc;
+      
+    }
+
+    .cadastrar {
+      width: 100%;
+      padding: 12px;
+      background-color: rgb(14, 199, 8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .cadastrar:hover {
+      background-color: #0ca312;
+    }
+
+    .invalid-feedback {
+      color: red;
+      font-size: 0.8rem;
+      display: none;
+      text-align: left;
+      margin-top: -8px;
+      margin-bottom: 5px;
+    }
+
+    #mensagem {
+      color: white;
+      font-weight: bold;
+    }
+
+    #espacoTabela {
+      width: 80%;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Cadastrar Partido</h2>
+    <form id="cadastroForm2" novalidate>
+      <label for="cod">Cpf:</label>
+      <input type="text" id="cod" name="cod" required>
+      <div class="invalid-feedback">Por favor informe o cpf!</div>
+
+      <label for="email">Titulo de Eleitor:</label>
+      <input type="email" id="email" name="email" required>
+      <div class="invalid-feedback">Por favor informe Titulo de Eleitor !</div>
+
+      <label for="sigla">Nome:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a senha!</div>
+      
+      <label for="sigla">Endereço:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe o endereço!</div>
+      
+      <label for="sigla">Número:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a número!</div>
+      
+      <label for="sigla">Bairro:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a bairro!</div>
+
+      <label for="sigla">Cidade:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a cidade!</div>
+
+      <label for="sigla">Uf:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a uf!</div>
+
+      <label for="sigla">Cep:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a cep!</div>
+
+      <label for="sigla">Renda Mensal:</label>
+      <input type="password" id="sigla" name="sigla" required>
+      <div class="invalid-feedback">Por favor informe a renda mensal!</div>
+
+
+
+
+      
+
+      <button id="btnCadastrar" class="cadastrar" type="submit">Cadastrar</button>
+      <button id="btnAtualizar" class="cadastrar" type="button">Atualizar</button>
+      <button id="btnExcluir" class="cadastrar" type="button">Excluir</button>
+    </form>
+  </div>
+
+  <div id="mensagem"></div>
+  <div id="espacoTabela"></div>
+
+  <script src="scripits/candidatos.js"></script>
+</body>
+</html>

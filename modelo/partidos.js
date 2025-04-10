@@ -9,7 +9,6 @@ export default class Partido {
         this.#codigo = codigo;
         this.#nomeDoPartido = nomeDoPartido;
         this.#siglaDoPartido = siglaDoPartido;
-      
     }
 
     // Getters
@@ -25,9 +24,7 @@ export default class Partido {
         return this.#siglaDoPartido;
     }
 
-
     // Setters
-    
     set codigo(novoCodigo) {
         this.#codigo = novoCodigo;
     }
@@ -36,19 +33,16 @@ export default class Partido {
         this.#nomeDoPartido = novoNomeDoPartido;
     }
 
-  
     set siglaDoPartido(novaSiglaDoPartido) {
         this.#siglaDoPartido = novaSiglaDoPartido;
     }
 
- 
-    // Método para converter o objeto em JSON
+    // ✅ Método corrigido: nomes compatíveis com o front-end
     toJSON() {
         return {         
             codigo: this.#codigo,
-            nomeDoPartido: this.#nomeDoPartido,
-            siglaDoPartido: this.#siglaDoPartido,
-         
+            nome: this.#nomeDoPartido, 
+            sigla: this.#siglaDoPartido 
         };
     }
 
@@ -62,7 +56,6 @@ export default class Partido {
         const usuDB = new PartidosDB();
         await usuDB.alterar(this);
     }
-    
 
     async excluir() {
         const usuDB = new PartidosDB();
