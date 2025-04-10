@@ -30,29 +30,25 @@ export default class CandidatosDB {
 
     async gravar(candidato) {
         if (candidato instanceof Candidato) {
-            try {
                 const conexao = await conectar();
                 const sql = `INSERT INTO candidatos (cpf, tituloDeEleitor, nome, endereço, número, bairro, cidade, cep, uf, rendaMensal)
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-                const parametros = [
-                    candidato.cpf,
-                    candidato.tituloDeEleitor,
-                    candidato.nome,
-                    candidato.endereço,
-                    candidato.número,
-                    candidato.bairro,
-                    candidato.cidade,
-                    candidato.cep,
-                    candidato.uf,
-                    candidato.rendaMensal
-                ];
+                             const parametros = [
+                                candidato.cpf ?? null,
+                                candidato.tituloDeEleitor ?? null,
+                                candidato.nome ?? null,
+                                candidato.endereco ?? null,
+                                candidato.numero ?? null,
+                                candidato.bairro ?? null,
+                                candidato.cidade ?? null,
+                                candidato.cep ?? null,
+                                candidato.uf ?? null,
+                                candidato.rendaMensal ?? null
+                            ];
+                            
                 await conexao.execute(sql, parametros);
-                conexao.release();
-            } catch (erro) {
-                console.log("Erro ao gravar candidato: " + erro);
-            }
-        }
-    }
+                await conexao.release();
+            }}
 
     async alterar(candidato) {
         if (candidato instanceof Candidato) {
@@ -63,8 +59,8 @@ export default class CandidatosDB {
                     candidato.cpf,
                     candidato.tituloDeEleitor,
                     candidato.nome,
-                    candidato.endereço,
-                    candidato.número,
+                    candidato.endereco,
+                    candidato.numero,
                     candidato.bairro,
                     candidato.cidade,
                     candidato.cep,
@@ -107,8 +103,8 @@ export default class CandidatosDB {
                     registro.cpf,
                     registro.tituloDeEleitor,
                     registro.nome,
-                    registro.endereço,
-                    registro.número,
+                    registro.endereco,
+                    registro.numero,
                     registro.bairro,
                     registro.cidade,
                     registro.cep,

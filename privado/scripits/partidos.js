@@ -3,7 +3,7 @@ let acao = "cadastrar";
 
 function manipularEnvio(evento) {
     if (!cadastroForm.checkValidity()) {
-        cadastroForm.classList.add("was-validated");
+        
     } else {
         if (acao == "cadastrar") {
             adicionarPartido();

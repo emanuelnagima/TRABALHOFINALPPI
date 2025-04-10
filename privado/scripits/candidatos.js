@@ -1,4 +1,4 @@
-const cadastroForm2 = document.getElementById("cadastroForm");
+const cadastroForm= document.getElementById("cadastroForm");
 let acao = "cadastrar";
 
 function manipularEnvio(evento) {
@@ -133,8 +133,7 @@ function mostrarTabelaCandidato() {
                     </tr>
                 `;
                 tabela.appendChild(thead);
-
-                candidatos.forEach(c => {
+                for (let i = 0; i < usuarios.length; i++) {
                     const linha = document.createElement("tr");
                     linha.innerHTML = `
                         <td>${c.cpf}</td>
@@ -154,10 +153,10 @@ function mostrarTabelaCandidato() {
                             <button class="btn btn-sm btn-danger" onclick="pegarCandidato('${c.cpf}', '${c.titulo}', '${c.nome}', '${c.endereco}', '${c.numero}', '${c.bairro}', '${c.cidade}', '${c.uf}', '${c.cep}', '${c.rendaMensal}', 'excluir')"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     `;
-                    tbody.appendChild(linha);
-                });
+                    corpo.appendChild(linha);
+                }
 
-                tabela.appendChild(tbody);
+                tabela.appendChild(corpo);
                 espacoTabela.appendChild(tabela);
             } else {
                 mostrarMensagem("Não há candidatos cadastrados.", "warning");
@@ -185,16 +184,16 @@ function pegarCandidato(cpf, titulo, nome, endereco, numero, bairro, cidade, uf,
 
     if (novaAcao === "atualizar") {
         acao = "atualizar";
-        document.getElementById("atualizar").disabled = false;
-        document.getElementById("cadastrar").disabled = true;
-        document.getElementById("excluir").disabled = true;
+        document.getElementById("atualizar") = false;
+        document.getElementById("cadastrar") = true;
+        document.getElementById("excluir")= true; /////////////////DESATIVEI O DESABLEEEEEEEEEEEEEEEEEEEEEEE
     } else if (novaAcao === "excluir") {
         acao = "excluir";
-        document.getElementById("atualizar").disabled = true;
-        document.getElementById("cadastrar").disabled = true;
-        document.getElementById("excluir").disabled = false;
+        document.getElementById("atualizar") = true;
+        document.getElementById("cadastrar") = true;
+        document.getElementById("excluir") = false;
     }
 }
 
-cadastroForm2.addEventListener("submit", manipularEnvio);
+cadastroForm.addEventListener("submit", manipularEnvio);
 mostrarTabelaCandidato();

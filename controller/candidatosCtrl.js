@@ -11,10 +11,34 @@ export default class CandidatoCtrl {
     gravar(requisicao, resposta) {
         if (requisicao.method === 'POST' && requisicao.is("application/json")) {
             const dados = requisicao.body;
-            const { codigo, nomeDoCandidato } = dados;
+            const {
+                cpf,
+                tituloDeEleitor,
+                nome,
+                endereco,
+                numero,
+                bairro,
+                cidade,
+                uf,
+                cep,
+                rendaMensal
+            } = dados;
 
-            if (codigo && nomeDoCandidato) {
-                const candidato = new Candidato(codigo, nomeDoCandidato);
+            // Validação de campos obrigatórios
+            if (cpf && tituloDeEleitor && nome && endereco && numero && bairro && cidade && uf && cep && rendaMensal) {
+                const candidato = new Candidato(
+                    cpf,
+                    tituloDeEleitor,
+                    nome,
+                    endereco,
+                    numero,
+                    bairro,
+                    cidade,
+                    uf,
+                    cep,
+                    rendaMensal
+                );
+
                 candidato.gravar().then(() => {
                     resposta.status(201).json({
                         status: true,
@@ -23,19 +47,19 @@ export default class CandidatoCtrl {
                 }).catch((erro) => {
                     resposta.status(500).json({
                         status: false,
-                        mensagem: "Erro ao gravar o candidato no servidor: " + erro
+                        mensagem: "Erro ao gravar o candidato: " + erro
                     });
                 });
             } else {
                 resposta.status(400).json({
                     status: false,
-                    mensagem: "Código e nome do candidato devem ser informados."
+                    mensagem: "Todos os campos devem ser informados."
                 });
             }
         } else {
             resposta.status(400).json({
                 status: false,
-                mensagem: "Requisição inválida."
+                mensagem: "Requisição inválida. Envie dados em formato JSON."
             });
         }
     }
@@ -44,14 +68,37 @@ export default class CandidatoCtrl {
     alterar(requisicao, resposta) {
         if ((requisicao.method === 'PUT' || requisicao.method === 'PATCH') && requisicao.is("application/json")) {
             const dados = requisicao.body;
-            const { codigo, nomeDoCandidato } = dados;
+            const {
+                cpf,
+                tituloDeEleitor,
+                nome,
+                endereco,
+                numero,
+                bairro,
+                cidade,
+                uf,
+                cep,
+                rendaMensal
+            } = dados;
 
-            if (codigo && nomeDoCandidato) {
-                const candidato = new Candidato(codigo, nomeDoCandidato);
+            if (cpf && tituloDeEleitor && nome && endereco && numero && bairro && cidade && uf && cep && rendaMensal) {
+                const candidato = new Candidato(
+                    cpf,
+                    tituloDeEleitor,
+                    nome,
+                    endereco,
+                    numero,
+                    bairro,
+                    cidade,
+                    uf,
+                    cep,
+                    rendaMensal
+                );
+
                 candidato.alterar().then(() => {
                     resposta.status(200).json({
                         status: true,
-                        mensagem: "Candidato alterado com sucesso!!!!!!!!!!"
+                        mensagem: "Candidato alterado com sucesso!"
                     });
                 }).catch((erro) => {
                     resposta.status(500).json({
@@ -62,13 +109,13 @@ export default class CandidatoCtrl {
             } else {
                 resposta.status(400).json({
                     status: false,
-                    mensagem: "Código e nome do candidato devem ser informados."
+                    mensagem: "Todos os campos devem ser informados."
                 });
             }
         } else {
             resposta.status(400).json({
                 status: false,
-                mensagem: "Requisição inválida."
+                mensagem: "Requisição inválida. Envie dados em formato JSON."
             });
         }
     }
@@ -77,14 +124,14 @@ export default class CandidatoCtrl {
     excluir(requisicao, resposta) {
         if (requisicao.method === 'DELETE' && requisicao.is("application/json")) {
             const dados = requisicao.body;
-            const { codigo } = dados;
+            const { cpf } = dados;
 
-            if (codigo) {
-                const candidato = new Candidato(codigo);
+            if (cpf) {
+                const candidato = new Candidato(cpf);
                 candidato.excluir().then(() => {
                     resposta.status(200).json({
                         status: true,
-                        mensagem: "Candidato excluído com sucesso!!!!!!!!!!!"
+                        mensagem: "Candidato excluído com sucesso!"
                     });
                 }).catch((erro) => {
                     resposta.status(500).json({
@@ -95,13 +142,13 @@ export default class CandidatoCtrl {
             } else {
                 resposta.status(400).json({
                     status: false,
-                    mensagem: "Informe o código do candidato para exclusão."
+                    mensagem: "Informe o CPF do candidato para exclusão."
                 });
             }
         } else {
             resposta.status(400).json({
                 status: false,
-                mensagem: "Requisição inválida."
+                mensagem: "Requisição inválida. Envie dados em formato JSON."
             });
         }
     }
