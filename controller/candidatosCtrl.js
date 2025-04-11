@@ -1,4 +1,4 @@
-// CAMADA DE CONTROLE - CandidatoCtrl.js
+
 
 import Candidato from "../modelo/candidatos.js";
 

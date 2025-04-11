@@ -3,7 +3,7 @@
 import express from "express";
 import session from "express-session";
 import autenticar from "./seguranca/autenticar.js";
-import rotaPartido from "./routes/rotaPartidos.js";
+    import rotaPartido from "./routes/rotaPartidos.js";
 import rotaCandidato from "./routes/rotaCandidatos.js";
 
 const host = "0.0.0.0"; // Disponível em    qualquer interface
@@ -27,7 +27,7 @@ app.use(session({
 
 //  Rotas
 app.use("/partidos", rotaPartido);
-app.use("/candidatos", rotaCandidato);
+    app.use("/candidatos", rotaCandidato);
 
 // Rota para  a página  de login
 app.get("/login", (req, res) => {
@@ -35,7 +35,7 @@ app.get("/login", (req, res) => {
 });
 
 // Rota para   processar   o login
-app.post("/login", (req, res) => {
+    app.post("/login", (req, res) => {
     const { usuario, senha } = req.body;
 
     if (usuario === "admin" && senha === "admin") {
@@ -52,10 +52,10 @@ app.get("/logout", (req, res) => {
 });
 
 // Disponibilizando   arquivos estáticos (público)
-app.use(express.static("./publico"));
+    app.use(express.static("./publico"));
 
 // Disponibilizando   arquivos   privados somente para usuários autenticados
-app.use(autenticar, express.static("./privado"));
+    app.use(autenticar, express.static("./privado"));
 
 app.listen(porta, host, () => {
     console.log(`Servidor backend em execução em http://${host}:${porta}`);

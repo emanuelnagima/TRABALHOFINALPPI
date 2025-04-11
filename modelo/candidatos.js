@@ -8,7 +8,7 @@ export default class Candidato {
     #nome;
     #endereco;
     #numero;
-    #bairro;
+        #bairro;
     #cidade;
     #cep;
     #uf;
@@ -17,9 +17,9 @@ export default class Candidato {
     constructor(cpf, tituloDeEleitor, nome, endereco, numero, bairro, cidade, cep, uf, rendaMensal) {
         this.#cpf = cpf;
         this.#tituloDeEleitor = tituloDeEleitor;
-        this.#nome = nome;
-        this.#endereco = endereco;
-        this.#numero = numero;
+         this.#nome = nome;
+             this.#endereco = endereco;
+         this.#numero = numero;
         this.#bairro = bairro;
         this.#cidade = cidade;
         this.#cep = cep;
@@ -30,10 +30,10 @@ export default class Candidato {
     // Getters
     get cpf() { return this.#cpf; }
     get tituloDeEleitor() { return this.#tituloDeEleitor; }
-    get nome() { return this.#nome; }
-    get endereco() { return this.#endereco; }
-    get numero() { return this.#numero; }
-    get bairro() { return this.#bairro; }
+        get nome() { return this.#nome; }
+     get endereco() { return this.#endereco; }
+        get numero() { return this.#numero; }
+        get bairro() { return this.#bairro; }
     get cidade() { return this.#cidade; }
     get cep() { return this.#cep; }
     get uf() { return this.#uf; }
@@ -44,9 +44,9 @@ export default class Candidato {
     set tituloDeEleitor(valor) { this.#tituloDeEleitor = valor; }
     set nome(valor) { this.#nome = valor; }
     set endereco(valor) { this.#endereco = valor; }
-    set numero(valor) { this.#numero = valor; }
+     set numero(valor) { this.#numero = valor; }
     set bairro(valor) { this.#bairro = valor; }
-    set cidade(valor) { this.#cidade = valor; }
+     set cidade(valor) { this.#cidade = valor; }
     set cep(valor) { this.#cep = valor; }
     set uf(valor) { this.#uf = valor; }
     set rendaMensal(valor) { this.#rendaMensal = valor; }
@@ -69,7 +69,7 @@ export default class Candidato {
 
     // Operações com o banco de dados
     async gravar() {
-        const db = new CandidatosDB();
+            const db = new CandidatosDB();
         await db.gravar(this);
     }
 
@@ -79,7 +79,7 @@ export default class Candidato {
     }
 
     async excluir() {
-        const db = new CandidatosDB();
+            const db = new CandidatosDB();
         await db.excluir(this);
     }
 

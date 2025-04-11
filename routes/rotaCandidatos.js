@@ -1,4 +1,4 @@
-// routes/rotaCandidatos.js
+
 import { Router } from "express";
 import CandidatoCtrl from "../controller/candidatosCtrl.js";
 

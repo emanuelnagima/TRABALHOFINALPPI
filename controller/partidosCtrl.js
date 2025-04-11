@@ -5,11 +5,12 @@ import PartidosDB from "../database/partidosDB.js";
 
 export default class PartidoCtrl {
 
-
     async gravar(requisicao, resposta) {
         if (requisicao.method === 'POST' && requisicao.is("application/json")) {
-            const { codigo, nome, sigla } = requisicao.body;;
-
+            // Desestruturação correta dos dados da requisição
+            const { codigo, nomeDoPartido, siglaDoPartido } = requisicao.body;
+    
+            // Verificação de dados
             if (codigo && nomeDoPartido && siglaDoPartido) {
                 if (siglaDoPartido.length > 5) {
                     return resposta.status(400).json({
@@ -17,10 +18,10 @@ export default class PartidoCtrl {
                         mensagem: "A sigla do partido deve ter no máximo 5 caracteres."
                     });
                 }
-
-                const partido = new Partido(codigo, nome, sigla);
+    
+                const partido = new Partido(codigo, nomeDoPartido, siglaDoPartido);
                 const db = new PartidosDB();
-
+    
                 try {
                     await db.gravar(partido);
                     resposta.status(201).json({
@@ -33,7 +34,7 @@ export default class PartidoCtrl {
                         mensagem: "Erro ao gravar o partido: " + erro
                     });
                 }
-
+    
             } else {
                 resposta.status(400).json({
                     status: false,
@@ -47,7 +48,8 @@ export default class PartidoCtrl {
             });
         }
     }
-
+    
+    
     async alterar(requisicao, resposta) {
         if ((requisicao.method === 'PUT' || requisicao.method === 'PATCH') && requisicao.is("application/json")) {
             const { codigo, nomeDoPartido, siglaDoPartido } = requisicao.body;
